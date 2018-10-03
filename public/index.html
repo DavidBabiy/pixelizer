@@ -9,13 +9,15 @@
 <div class="header"><a href="index.html">Pixelizer</a></div>
 <div class="main">
 
-    <form action="">
+    <form class="main-form" onsubmit="return submitForm()">
         <div class="description">This web application can convert any image into ANSI encoded text file:</div>
         <div class="tip"><p>File Upload Single <span>*</span></p></div>
         <div class="file-uploader">
-            <input id="file" name="file" class="input-file" type="file"/>
+            <input id="file" name="file" class="input-file" type="file" onchange="handleFiles(this.files)"/>
             <label for="file">Choose a file</label>
         </div>
+
+        <button type="submit">Submit</button>
 
     </form>
 
@@ -23,5 +25,8 @@
 <div class="footer">
     <div>All rights reserved &copy.</div>
 </div>
+
+<script src="index.js"></script>
+
 </body>
 </html>
