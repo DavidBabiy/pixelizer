@@ -11,7 +11,7 @@ app.get('/', function(req, res) {
 
 app.get('/hello', function (req, res) {
     let name = req.query.name;
-    if(name == undefined){
+    if(name === undefined){
         res.send('Please provide name');
     } else {
         res.send('Hello ' + name);
