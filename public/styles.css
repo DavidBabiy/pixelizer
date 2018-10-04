@@ -69,10 +69,11 @@ span {
 }
 
 .file-uploader label {
+    color: white;
     cursor: pointer;
     padding: 8px;
-    background-color: cadetblue;
-    border-radius: 2px;
+    background-color: black;
+    border-radius: 3px;
 }
 
 .input-file {

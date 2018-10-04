@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link content="text/css" rel="stylesheet" href="styles.css">
+    <link rel="icon" href="pics/settings.ico">
     <title>Pixelizer</title>
 </head>
 <body>
@@ -14,11 +15,10 @@
         <div class="tip"><p>File Upload Single <span>*</span></p></div>
         <div class="file-uploader">
             <input id="file" name="file" class="input-file" type="file" onchange="handleFiles(this.files)"/>
-            <label for="file">Choose a file</label>
+            <label for="file"><img src="pics/upload.png"/> Choose a file</label>
+            <button type="submit" id="submit" name="submit" class="input-file" >Submit</button>
+            <label for="submit">Submit <img src="pics/enter-arrow.png"/> </label>
         </div>
-
-        <button type="submit">Submit</button>
-
     </form>
 
 </div>
