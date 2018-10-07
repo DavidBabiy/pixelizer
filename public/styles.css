@@ -26,6 +26,12 @@ a {
     justify-content: center;
 }
 
+#fileName{
+    margin-top: 24px;
+    border: 1px solid silver;
+    border-radius: 3px;
+}
+
 .description {
     width: 100%;
     display: flex;

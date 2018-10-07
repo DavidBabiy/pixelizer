@@ -5,5 +5,7 @@ function submitForm() {
 
 function  handleFiles(files) {
     let selectedFile = files[0];
-    console.log(selectedFile);
+    document.getElementById("fileName").innerHTML = selectedFile.name;
+    return selectedFile;
 }
+
