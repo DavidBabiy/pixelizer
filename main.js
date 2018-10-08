@@ -1,4 +1,4 @@
-class Human {
+/*class Human {
     constructor() {
     }
 
@@ -11,7 +11,7 @@ class Human {
 let human1 = new Human();
 human1.name = "Taras";
 
-human1.sayHello();
+human1.sayHello();*/
 
 
 
