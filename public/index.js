@@ -6,13 +6,12 @@ function  handleFiles(files) {
 }
 
 function submitForm() {
-   /* let selectedFile = temporary;
     let formData = new FormData();
-    formData.append('clientFile',selectedFile);
+    formData.append('image', file);
     let request = new XMLHttpRequest();
-    request.open('POST','');
-    request.send(formData);*/
-   console.log(file.name);
+    request.open('POST', '/file/upload');
+    request.send(formData);
+    console.log('File ' + file.name + ' sent to server');
    return false;
 }
 

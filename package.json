@@ -12,7 +12,8 @@
   },
   "private": true,
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "express-fileupload": "^1.0.0-alpha.1"
   },
   "devDependencies": {}
 }
