@@ -1,10 +1,7 @@
-function submitForm() {
-    console.log("Hello I am MagicButton");
-    return false;
-}
+let file;
 
 function  handleFiles(files) {
-    let file = files[0];
+    file = files[0];
     document.getElementById("fileName").innerHTML = file.name;
 }
 
