@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
+const gm = require('gm');
 
 const PORT = 3000;
 const FILES_UPLOAD_FOLDER = 'storage';
@@ -35,6 +36,12 @@ app.post('/file/upload', function (req, res) {
             return res.status(500).send(err);
         res.status(204).send('');
     });
+    gm(FILES_UPLOAD_FOLDER + '/image.jpg')
+        .resize(300, 300)
+        .autoOrient()
+        .write(FILES_UPLOAD_FOLDER + '/image.jpg', function (err) {
+            if (!err) console.log(' hooray! ');
+        });
 });
 
 app.listen(PORT, function () {
