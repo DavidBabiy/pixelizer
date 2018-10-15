@@ -27,20 +27,27 @@ app.get('/hello', function (req, res) {
 app.post('/file/upload', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
-    console.log(req.files);
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let image = req.files.image;
     // Use the mv() method to place the file somewhere on your server
-    image.mv(FILES_UPLOAD_FOLDER + '/image.jpg', function (err) {
-        if (err)
+    image.mv(FILES_UPLOAD_FOLDER + '/' + image.name, function (err) {
+        if (err) {
             return res.status(500).send(err);
-        res.status(204).send('');
+        }
     });
-    gm(FILES_UPLOAD_FOLDER + '/image.jpg')
+    gm(FILES_UPLOAD_FOLDER + '/' + image.name)
         .resize(300, 300)
         .autoOrient()
-        .write(FILES_UPLOAD_FOLDER + '/image.jpg', function (err) {
-            if (!err) console.log(' hooray! ');
+        .write(FILES_UPLOAD_FOLDER + '/' + image.name, function (err) {
+            if (!err){
+                res.sendFile(FILES_UPLOAD_FOLDER + '/' + image.name, {root: __dirname}, function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('File sent');
+                    }
+                });
+            }
         });
 });
 
