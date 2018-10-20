@@ -4,6 +4,8 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const gm = require('gm');
+const getPixels = require("get-pixels")
+const ndarray = require("ndarray")
 
 const PORT = 3000;
 const FILES_UPLOAD_FOLDER = 'storage';
@@ -40,13 +42,20 @@ app.post('/file/upload', function (req, res) {
         .autoOrient()
         .write(FILES_UPLOAD_FOLDER + '/' + image.name, function (err) {
             if (!err){
-                res.sendFile(FILES_UPLOAD_FOLDER + '/' + image.name, {root: __dirname}, function (err) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log('File sent');
+                getPixels(FILES_UPLOAD_FOLDER + '/' + image.name, function(err, pixels) {
+                    if(err) {
+                        console.log("Bad image path");
+                        return
                     }
-                });
+                    console.log(pixels)
+                    // res.sendFile(FILES_UPLOAD_FOLDER + '/' + image.name, {root: __dirname}, function (err) {
+                    //     if (err) {
+                    //         console.log(err);
+                    //     } else {
+                    //         console.log('File sent');
+                    //     }
+                    // });
+                })
             }
         });
 });

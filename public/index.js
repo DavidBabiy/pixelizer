@@ -23,6 +23,6 @@ function submitForm() {
 function saveBlob(blob, fileName) {
     let a = document.createElement("a");
     a.href = window.URL.createObjectURL(blob);
-    a.download = fileName;
-    a.click();
+ a.download = fileName;
+a.click();
 }
