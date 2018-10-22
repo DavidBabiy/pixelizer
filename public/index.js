@@ -11,9 +11,11 @@ function submitForm() {
     let request = new XMLHttpRequest();
     request.responseType = "blob";
     request.onload = function(event){
-        let blob = request.response;
-        saveBlob(blob,file.name);
-    }
+        if (request.status === 200) {
+            let blob = request.response;
+            saveBlob(blob, file.name);
+        }
+    };
     request.open('POST', '/file/upload');
     request.send(formData);
     console.log('File ' + file.name + ' sent to server');
