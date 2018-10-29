@@ -13,7 +13,7 @@ function submitForm() {
     request.onload = function(event){
         if (request.status === 200) {
             let blob = request.response;
-            saveBlob(blob, file.name);
+            saveBlob(blob, file.name.split(".")[0] + ".txt");
         }
     };
     request.open('POST', '/file/upload');
