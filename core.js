@@ -4,7 +4,7 @@ const getPixels = require("get-pixels");
 const colorConvert = require('color-convert');
 const jimp = require('jimp');
 const os = require('os');
-
+const jpeg = require('jpeg-js');
 /** @type Core */
 let instance;
 
@@ -30,7 +30,9 @@ Core.prototype.parsePixels = function (req, res, image) {
             if (err) throw err;
         });
         let writeStream = fs.createWriteStream(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename);
-        for (let i = 0; i < pixels.data.length; i += channels) {
+        let imageMime = image.mimetype.split('/')[1];
+        if(imageMime === 'png'){
+            for (let i = 0; i < pixels.data.length; i += channels) {
             if (columnCounter === width) {
                 rowCounter++;
                 pixelsMat[rowCounter] = [];
@@ -47,6 +49,35 @@ Core.prototype.parsePixels = function (req, res, image) {
             let ansiColorCode = colorConvert.rgb.ansi16(pixel.r, pixel.g, pixel.b);
             writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
             writeStream.write('█', 'utf-8');
+            }
+        }
+
+        if(imageMime === 'jpeg'){
+            let jpegData = fs.readFileSync(Properties.FILES_UPLOAD_FOLDER + '/' + image.name);
+            let rawImageData = jpeg.decode(jpegData, true);
+            for (let i = 0; i < rawImageData.data.length; i += channels) {
+                if (columnCounter === width) {
+                    rowCounter++;
+                    pixelsMat[rowCounter] = [];
+                    columnCounter = 0;
+                    writeStream.write('\r\n', 'utf-8');
+                }
+                let pixel = {};
+                pixel.r = rawImageData.data[i];
+                pixel.g = rawImageData.data[i + 1];
+                pixel.b = rawImageData.data[i + 2];
+                pixel.a = rawImageData.data[i + 3];
+                pixelsMat[rowCounter].push(pixel);
+                columnCounter++;
+                let ansiColorCode = colorConvert.rgb.ansi16(pixel.r, pixel.g, pixel.b);
+                writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
+                writeStream.write('█', 'utf-8');
+            }
+
+        }
+
+        if(imageMime != 'jpeg' && imageMime != 'png'){
+            console.log('Not valid file format');
         }
 
         writeStream.on("finish", () => {
@@ -56,7 +87,8 @@ Core.prototype.parsePixels = function (req, res, image) {
             });
         });
         writeStream.end();
-    })
+    });
+    console.log(image.mimetype);
 };
 
 Core.prototype.convertImage = function (req, res, image) {
