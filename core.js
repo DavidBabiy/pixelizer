@@ -76,10 +76,6 @@ Core.prototype.parsePixels = function (req, res, image) {
 
         }
 
-        if(imageMime != 'jpeg' && imageMime != 'png'){
-            console.log('Not valid file format');
-        }
-
         writeStream.on("finish", () => {
             res.sendFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, {root: __dirname}, (err) => {
                 if (err) return res.status(500).send(err);
@@ -92,6 +88,11 @@ Core.prototype.parsePixels = function (req, res, image) {
 };
 
 Core.prototype.convertImage = function (req, res, image) {
+    let imageMime = image.mimetype.split('/')[1];
+    if(imageMime != 'jpeg' && imageMime != 'png'){
+        console.log('Not valid file format');
+    }
+
     image.mv(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, (err) => {
         if (err) return res.status(500).send(err);
         jimp.read(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, (err, img) => {
