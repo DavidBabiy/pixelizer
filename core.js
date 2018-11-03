@@ -16,7 +16,7 @@ function Core() {
 }
 
 Core.prototype.parsePixels = function (req, res, image) {
-     getPixels(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, image.mimetype, (err, pixels) => {
+    getPixels(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, image.mimetype, (err, pixels) => {
         if (err) return res.status(500).send('Error while reading image pixels');
         let width = pixels.shape[0];
         let height = pixels.shape[1];
@@ -25,14 +25,26 @@ Core.prototype.parsePixels = function (req, res, image) {
         let columnCounter = 0;
         let rowCounter = 0;
         pixelsMat[0] = [];
+        let data = [];
         let textFilename = image.name.split('.')[0] + ".txt";
         fs.writeFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, '', (err) => {
             if (err) throw err;
         });
         let writeStream = fs.createWriteStream(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename);
         let imageMime = image.mimetype.split('/')[1];
-        if(imageMime === 'png'){
-            for (let i = 0; i < pixels.data.length; i += channels) {
+
+        switch (imageMime) {
+            case 'png':
+                data = pixels.data.length;
+                break;
+            case 'jpeg':
+                data = jpeg.decode(fs.readFileSync(Properties.FILES_UPLOAD_FOLDER + '/' + image.name), true);
+                break;
+            default:
+                console.error("Unsupported mime type. Allowed types: jpg, png")
+        }
+
+        for (let i = 0; i < data; i += channels) {
             if (columnCounter === width) {
                 rowCounter++;
                 pixelsMat[rowCounter] = [];
@@ -40,40 +52,15 @@ Core.prototype.parsePixels = function (req, res, image) {
                 writeStream.write('\r\n', 'utf-8');
             }
             let pixel = {};
-            pixel.r = pixels.data[i];
-            pixel.g = pixels.data[i + 1];
-            pixel.b = pixels.data[i + 2];
-            pixel.a = pixels.data[i + 3];
+            pixel.r = data[i];
+            pixel.g = data[i + 1];
+            pixel.b = data[i + 2];
+            pixel.a = data[i + 3];
             pixelsMat[rowCounter].push(pixel);
             columnCounter++;
             let ansiColorCode = colorConvert.rgb.ansi16(pixel.r, pixel.g, pixel.b);
             writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
             writeStream.write('█', 'utf-8');
-            }
-        }
-
-        if(imageMime === 'jpeg'){
-            let jpegData = fs.readFileSync(Properties.FILES_UPLOAD_FOLDER + '/' + image.name);
-            let rawImageData = jpeg.decode(jpegData, true);
-            for (let i = 0; i < rawImageData.data.length; i += channels) {
-                if (columnCounter === width) {
-                    rowCounter++;
-                    pixelsMat[rowCounter] = [];
-                    columnCounter = 0;
-                    writeStream.write('\r\n', 'utf-8');
-                }
-                let pixel = {};
-                pixel.r = rawImageData.data[i];
-                pixel.g = rawImageData.data[i + 1];
-                pixel.b = rawImageData.data[i + 2];
-                pixel.a = rawImageData.data[i + 3];
-                pixelsMat[rowCounter].push(pixel);
-                columnCounter++;
-                let ansiColorCode = colorConvert.rgb.ansi16(pixel.r, pixel.g, pixel.b);
-                writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
-                writeStream.write('█', 'utf-8');
-            }
-
         }
 
         writeStream.on("finish", () => {
@@ -84,12 +71,12 @@ Core.prototype.parsePixels = function (req, res, image) {
         });
         writeStream.end();
     });
-    console.log(image.mimetype);
+
 };
 
 Core.prototype.convertImage = function (req, res, image) {
     let imageMime = image.mimetype.split('/')[1];
-    if(imageMime != 'jpeg' && imageMime != 'png'){
+    if (imageMime != 'jpeg' && imageMime != 'png') {
         console.log('Not valid file format');
     }
 
