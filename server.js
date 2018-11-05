@@ -14,10 +14,16 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
-app.post('/file/upload', (req, res) => {
+app.post('/file/preview', (req, res) => {
     if (!req.files) return res.status(400).send('No files were uploaded.');
     console.log("Starting image processing");
-    Core.convertImage(req, res, req.files.image)
+    Core.convertImage(req, res, req.files.image, true)
+});
+
+app.post('/file/convert', (req, res) => {
+    if (!req.files) return res.status(400).send('No files were uploaded.');
+    console.log("Starting image processing");
+    Core.convertImage(req, res, req.files.image, false)
 });
 
 app.listen(Properties.PORT, () => {

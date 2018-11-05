@@ -3,6 +3,14 @@
     padding: 0;
 }
 
+button {
+    outline: none;
+}
+
+.file-uploader button label {
+    margin-bottom: 0;
+}
+
 .header {
     display: flex;
     background-color: black;
@@ -74,28 +82,34 @@ span {
     justify-content: center;
 }
 
-.file-uploader label {
-    color: white;
-    cursor: pointer;
-    padding: 8px;
-    background-color: black;
-    border-radius: 3px;
-}
+/*.file-uploader label {*/
+    /*color: white;*/
+    /*cursor: pointer;*/
+    /*padding: 8px;*/
+    /*background-color: black;*/
+    /*border-radius: 3px;*/
+/*}*/
 
 .submit-form{
     display: flex;
     margin-top: 24px;
     align-items: center;
     justify-content: center;
+
 }
 
-.submit-form label {
-    color: white;
-    cursor: pointer;
-    padding: 8px;
-    background-color: black;
-    border-radius: 3px;
-}
+/*.submit-form button{*/
+    /*color: white;*/
+    /*cursor: pointer;*/
+    /*padding: 8px;*/
+    /*background-color: black;*/
+    /*border: none;*/
+    /*border-radius: 3px;*/
+/*}*/
+
+/*.submit-form button * {*/
+    /*cursor: pointer;*/
+/*}*/
 
 .input-file {
     display: none;
@@ -109,8 +123,15 @@ span {
     align-items: center;
 }
 
-
-button[type=submit] {
-    margin-top: 24px;
-    padding: 8px;
+#canvas{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
 }
+
+/*button[type=submit] {*/
+    /*margin-top: 24px;*/
+    /*padding: 8px;*/
+/*}*/
