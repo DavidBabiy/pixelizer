@@ -3,6 +3,7 @@ let file;
 function  handleFiles(files) {
     file = files[0];
     document.getElementById("fileName").innerHTML = file.name;
+    submitForm();
 }
 
 function submitForm() {

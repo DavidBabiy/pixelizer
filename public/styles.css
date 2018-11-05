@@ -84,9 +84,11 @@ span {
 
 .submit-form{
     display: flex;
+    visibility: hidden;
     margin-top: 24px;
     align-items: center;
     justify-content: center;
+
 }
 
 .submit-form label {

@@ -15,41 +15,65 @@ module.exports.Properties = Properties;
 function Core() {
 }
 
+Core.prototype.writeinFile = function(pixelsMat, textFilename, res, pixels){
+    let width = pixels.shape[0];
+    let channels = pixels.shape[2];
+    let columnCounter = 0;
+    let rowCounter = 0;
+    fs.writeFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, '', (err) => {
+        if (err) throw err;
+    });
+    let writeStream = fs.createWriteStream(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename);
+    for (let i = 0; i < pixels.data.length; i += channels) {
+        if (columnCounter === width) {
+            rowCounter++;
+            columnCounter = 0;
+            writeStream.write('\r\n', 'utf-8');
+        }
+        columnCounter++;
+        if(columnCounter < width) {
+            let ansiColorCode = colorConvert.rgb.ansi16(pixelsMat[rowCounter][columnCounter].r, pixelsMat[rowCounter][columnCounter].g, pixelsMat[rowCounter][columnCounter].b);
+            writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
+            writeStream.write('█', 'utf-8');
+        }
+    }
+    writeStream.on("finish", () => {
+        res.sendFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, {root: __dirname}, (err) => {
+            if (err) return res.status(500).send(err);
+            console.log('Image sent to client');
+        });
+    });
+    writeStream.end();
+}
+
 Core.prototype.parsePixels = function (req, res, image) {
     getPixels(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, image.mimetype, (err, pixels) => {
         if (err) return res.status(500).send('Error while reading image pixels');
+        let textFilename = image.name.split('.')[0] + ".txt";
         let width = pixels.shape[0];
-        let height = pixels.shape[1];
         let channels = pixels.shape[2];
         let pixelsMat = [];
         let columnCounter = 0;
         let rowCounter = 0;
         pixelsMat[0] = [];
         let data = [];
-        let textFilename = image.name.split('.')[0] + ".txt";
-        fs.writeFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, '', (err) => {
-            if (err) throw err;
-        });
-        let writeStream = fs.createWriteStream(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename);
-        let imageMime = image.mimetype.split('/')[1];
+         let imageMime = image.mimetype.split('/')[1];
 
         switch (imageMime) {
             case 'png':
-                data = pixels.data.length;
+                data = pixels.data;
                 break;
             case 'jpeg':
-                data = jpeg.decode(fs.readFileSync(Properties.FILES_UPLOAD_FOLDER + '/' + image.name), true);
+                data = jpeg.decode(fs.readFileSync(Properties.FILES_UPLOAD_FOLDER + '/' + image.name), true).data;
                 break;
             default:
                 console.error("Unsupported mime type. Allowed types: jpg, png")
         }
-
-        for (let i = 0; i < data; i += channels) {
+        for (let i = 0; i < data.length; i += channels) {
             if (columnCounter === width) {
                 rowCounter++;
                 pixelsMat[rowCounter] = [];
                 columnCounter = 0;
-                writeStream.write('\r\n', 'utf-8');
             }
             let pixel = {};
             pixel.r = data[i];
@@ -58,20 +82,9 @@ Core.prototype.parsePixels = function (req, res, image) {
             pixel.a = data[i + 3];
             pixelsMat[rowCounter].push(pixel);
             columnCounter++;
-            let ansiColorCode = colorConvert.rgb.ansi16(pixel.r, pixel.g, pixel.b);
-            writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
-            writeStream.write('█', 'utf-8');
         }
-
-        writeStream.on("finish", () => {
-            res.sendFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, {root: __dirname}, (err) => {
-                if (err) return res.status(500).send(err);
-                console.log('Image sent to client');
-            });
-        });
-        writeStream.end();
+        this.writeinFile(pixelsMat, textFilename, res, pixels);
     });
-
 };
 
 Core.prototype.convertImage = function (req, res, image) {
@@ -92,6 +105,7 @@ Core.prototype.convertImage = function (req, res, image) {
                 });
         });
     });
+
 };
 
 /**
