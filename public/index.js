@@ -17,7 +17,7 @@ function submitForm() {
             saveBlob(blob, file.name.split(".")[0] + ".txt");
         }
     };
-    request.open('POST', '/file/upload');
+    request.open('POST', '/file/convert');
     request.send(formData);
     console.log('File ' + file.name + ' sent to server');
    return false;

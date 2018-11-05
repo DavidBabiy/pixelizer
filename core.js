@@ -15,15 +15,15 @@ module.exports.Properties = Properties;
 function Core() {
 }
 
-Core.prototype.writeinFile = function(pixelsMat, textFilename, res, pixels){
+Core.prototype.writeFile = function(pixelsMat, fileName, res, pixels){
     let width = pixels.shape[0];
     let channels = pixels.shape[2];
     let columnCounter = 0;
     let rowCounter = 0;
-    fs.writeFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, '', (err) => {
+    fs.writeFile(Properties.FILES_UPLOAD_FOLDER + '/' + fileName, '', (err) => {
         if (err) throw err;
     });
-    let writeStream = fs.createWriteStream(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename);
+    let writeStream = fs.createWriteStream(Properties.FILES_UPLOAD_FOLDER + '/' + fileName);
     for (let i = 0; i < pixels.data.length; i += channels) {
         if (columnCounter === width) {
             rowCounter++;
@@ -38,18 +38,23 @@ Core.prototype.writeinFile = function(pixelsMat, textFilename, res, pixels){
         }
     }
     writeStream.on("finish", () => {
-        res.sendFile(Properties.FILES_UPLOAD_FOLDER + '/' + textFilename, {root: __dirname}, (err) => {
+        res.sendFile(Properties.FILES_UPLOAD_FOLDER + '/' + fileName, {root: __dirname}, (err) => {
             if (err) return res.status(500).send(err);
             console.log('Image sent to client');
         });
     });
     writeStream.end();
-}
+};
 
-Core.prototype.parsePixels = function (req, res, image) {
+Core.prototype.preparePreview = function(pixelsMat, fileName, res, pixels){
+    // TODO: Implement this
+    res.sendStatus(200);
+};
+
+Core.prototype.parsePixels = function (req, res, image, callback) {
     getPixels(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, image.mimetype, (err, pixels) => {
         if (err) return res.status(500).send('Error while reading image pixels');
-        let textFilename = image.name.split('.')[0] + ".txt";
+        let fileName = image.name.split('.')[0] + ".txt";
         let width = pixels.shape[0];
         let channels = pixels.shape[2];
         let pixelsMat = [];
@@ -83,11 +88,11 @@ Core.prototype.parsePixels = function (req, res, image) {
             pixelsMat[rowCounter].push(pixel);
             columnCounter++;
         }
-        this.writeinFile(pixelsMat, textFilename, res, pixels);
+        callback(pixelsMat, fileName, res, pixels);
     });
 };
 
-Core.prototype.convertImage = function (req, res, image) {
+Core.prototype.convertImage = function (req, res, image, preview) {
     let imageMime = image.mimetype.split('/')[1];
     if (imageMime != 'jpeg' && imageMime != 'png') {
         console.log('Not valid file format');
@@ -101,7 +106,7 @@ Core.prototype.convertImage = function (req, res, image) {
                 .quality(100)
                 .write(Properties.FILES_UPLOAD_FOLDER + '/' + image.name, () => {
                     console.log("File resized");
-                    this.parsePixels(req, res, image)
+                    this.parsePixels(req, res, image, preview ? this.preparePreview : this.writeFile)
                 });
         });
     });
