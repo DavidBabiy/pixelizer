@@ -32,8 +32,8 @@ Core.prototype.writeFile = function(pixelsMat, fileName, res, pixels){
         }
         columnCounter++;
         if(columnCounter < width) {
-            let ansiColorCode = colorConvert.rgb.ansi16(pixelsMat[rowCounter][columnCounter].r, pixelsMat[rowCounter][columnCounter].g, pixelsMat[rowCounter][columnCounter].b);
-            writeStream.write('${AnsiColor.' + colors.ansiColorsMap[ansiColorCode] + '}', 'utf-8');
+            let pixel = pixelsMat[rowCounter][columnCounter];
+            writeStream.write('${AnsiColor.' + colors.ansiColorsMap[pixel.ansi] + '}', 'utf-8');
             writeStream.write('█', 'utf-8');
         }
     }
@@ -48,7 +48,8 @@ Core.prototype.writeFile = function(pixelsMat, fileName, res, pixels){
 
 Core.prototype.preparePreview = function(pixelsMat, fileName, res, pixels){
     // TODO: Implement this
-    res.sendStatus(200);
+
+    res.status(200).json(pixelsMat);
 };
 
 Core.prototype.parsePixels = function (req, res, image, callback) {
@@ -81,10 +82,12 @@ Core.prototype.parsePixels = function (req, res, image, callback) {
                 columnCounter = 0;
             }
             let pixel = {};
-            pixel.r = data[i];
-            pixel.g = data[i + 1];
-            pixel.b = data[i + 2];
-            pixel.a = data[i + 3];
+            pixel.ansi = colorConvert.rgb.ansi16(data[i], data[i + 1], data[i + 2]);
+            let rgb = colorConvert.ansi16.rgb(pixel.ansi);
+            pixel.r = rgb[0];
+            pixel.g = rgb[1];
+            pixel.b = rgb[2];
+            pixel.a = data[i + 3]/255;
             pixelsMat[rowCounter].push(pixel);
             columnCounter++;
         }

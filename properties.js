@@ -4,7 +4,7 @@ let instance;
 function Properties() {
     this.PORT = 3200;
     this.FILES_UPLOAD_FOLDER = 'storage';
-    this.MAX_FILE_RESOLUTION = 100;
+    this.MAX_FILE_RESOLUTION = 300;
 }
 
 /**
