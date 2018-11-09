@@ -21,7 +21,7 @@ export default class ImageService {
         return ImageService.instance;
     }
 
-    convertImage(req, res, image, preview) {
+   async convertImage(req, res, image, preview) {
         let imageMime = image.mimetype.split('/')[1];
         if (imageMime != 'jpeg' && imageMime != 'png') {
             console.error('Not valid file format');
@@ -45,7 +45,7 @@ export default class ImageService {
 
     };
 
-    parsePixels(req, res, image, callback) {
+    async parsePixels(req, res, image, callback) {
         getPixels(FILES_UPLOAD_FOLDER + '/' + image.name, image.mimetype, (err, pixels) => {
             if (err) return res.status(500).send('Error while reading image pixels');
             let fileName = image.name.split('.')[0] + ".txt";
@@ -94,7 +94,7 @@ export default class ImageService {
         });
     };
 
-    writeFile(pixelsMat, fileName, res, pixels) {
+    async writeFile(pixelsMat, fileName, res, pixels) {
         let width = pixels.shape[0];
         let channels = pixels.shape[2];
         let columnCounter = 0;
@@ -125,7 +125,8 @@ export default class ImageService {
         writeStream.end();
     };
 
-    preparePreview(pixelsMat: any[], fileName: String, res: Response, pixels) {
+    async preparePreview(pixelsMat: any[], fileName: String, res: Response, pixels) {
+        console.log('preparePreview');
         res.status(200).json(pixelsMat);
     };
 };
