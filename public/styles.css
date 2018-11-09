@@ -3,6 +3,18 @@
     padding: 0;
 }
 
+#title {
+    color:white;
+}
+
+#title:hover {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 button {
     outline: none;
 }
@@ -11,7 +23,8 @@ button {
     margin-bottom: 0;
 }
 
-.header {
+.header1 {
+    text-decoration: none;
     display: flex;
     background-color: black;
     color: white;
@@ -22,8 +35,7 @@ button {
     font-size: 3em;
 }
 
-a {
-    color: white;
+.header1 :hover{
     text-decoration: none;
 }
 
@@ -107,9 +119,9 @@ span {
     /*border-radius: 3px;*/
 /*}*/
 
-/*.submit-form button * {*/
-    /*cursor: pointer;*/
-/*}*/
+.submit-form button {
+    display: none;
+}
 
 .input-file {
     display: none;

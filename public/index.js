@@ -1,4 +1,4 @@
-const scale = 2;
+const scale = 1;
 let file;
 
 function handleFiles(files) {
@@ -7,12 +7,16 @@ function handleFiles(files) {
     uploadFile();
 }
 
+function showButton(){
+    document.getElementById("b2").style.display = "inline";
+}
+
 function uploadFile() {
     let formData = new FormData();
     formData.append('image', file);
     $.ajax({
         type: "POST",
-        url: "/file/preview",
+        url: "/image/preview",
         data: formData,
         processData: false,
         contentType: false,
@@ -22,11 +26,11 @@ function uploadFile() {
         }
     });
     console.log('File ' + file.name + ' sent to server');
+    showButton();
     return false;
 }
 
 function downloadFile() {
-    console.log(file);
     if (file === undefined) {
         alert('Please upload file');
         return false;
@@ -37,11 +41,11 @@ function downloadFile() {
     request.responseType = "blob";
     request.onload = function (event) {
         if (request.status === 200) {
-            let blob = request.response;
+           let blob = request.response;
             saveBlob(blob, file.name.split(".")[0] + ".txt");
         }
     };
-    request.open('POST', '/file/convert');
+    request.open('POST', '/image/convert');
     request.send(formData);
     console.log('File ' + file.name + ' sent to server');
     return false;

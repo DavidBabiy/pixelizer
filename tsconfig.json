@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "/",
+    "target": "es2017",
+    "lib": ["es2017", "dom" ],
+    "types": ["reflect-metadata", "node", "mocha", "chai", "express" ],
+    "typeRoots": ["node_modules/@types"],
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "outDir": "build"
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
+}
