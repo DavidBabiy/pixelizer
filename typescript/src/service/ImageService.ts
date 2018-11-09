@@ -6,6 +6,8 @@ import * as getPixels from "get-pixels";
 import * as jpeg from "jpeg-js";
 import * as colorConvert from "color-convert";
 import jimp = require("jimp");
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "http-status-codes";
+import { FILE } from "dns";
 
 
 export default class ImageService {
@@ -21,15 +23,15 @@ export default class ImageService {
         return ImageService.instance;
     }
 
-   async convertImage(req, res, image, preview) {
+    convertImage(req, res, image, preview) {
         let imageMime = image.mimetype.split('/')[1];
         if (imageMime != 'jpeg' && imageMime != 'png') {
             console.error('Not valid file format');
-            res.status(500).json({error: 'Not valid file format'});
+            res.status(BAD_REQUEST).json({error: 'Not valid file format'});
         }
 
         image.mv(FILES_UPLOAD_FOLDER + '/' + image.name, (err) => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(INTERNAL_SERVER_ERROR).send(err);
             let promise = jimp.read(FILES_UPLOAD_FOLDER + '/' + image.name);
             promise.then(img => {
                 img.scaleToFit(MAX_FILE_RESOLUTION, MAX_FILE_RESOLUTION)
@@ -39,15 +41,15 @@ export default class ImageService {
                         this.parsePixels(req, res, image, preview ? this.preparePreview : this.writeFile)
                     });
             }, err => {
-                res.status(500).send('Error while resizing image');
+                res.status(INTERNAL_SERVER_ERROR).send('Error while resizing image');
             });
         });
 
     };
 
-    async parsePixels(req, res, image, callback) {
+    parsePixels(req, res, image, callback) {
         getPixels(FILES_UPLOAD_FOLDER + '/' + image.name, image.mimetype, (err, pixels) => {
-            if (err) return res.status(500).send('Error while reading image pixels');
+            if (err) return res.status(INTERNAL_SERVER_ERROR).send('Error while reading image pixels');
             let fileName = image.name.split('.')[0] + ".txt";
             let width = pixels.shape[0];
             let channels = pixels.shape[2];
@@ -94,7 +96,7 @@ export default class ImageService {
         });
     };
 
-    async writeFile(pixelsMat, fileName, res, pixels) {
+    writeFile(pixelsMat, fileName, res, pixels) {
         let width = pixels.shape[0];
         let channels = pixels.shape[2];
         let columnCounter = 0;
@@ -116,17 +118,17 @@ export default class ImageService {
                 writeStream.write('█', 'utf-8');
             }
         }
+
         writeStream.on("finish", () => {
-            res.sendFile(FILES_UPLOAD_FOLDER + '/' + fileName, {root: __dirname}, (err) => {
-                if (err) return res.status(500).send(err);
+            res.sendFile(FILES_UPLOAD_FOLDER + '/' + fileName,(err) => {
+                if (err) return res.status(INTERNAL_SERVER_ERROR).send(err);
                 console.log('Image sent to client');
             });
         });
         writeStream.end();
     };
 
-    async preparePreview(pixelsMat: any[], fileName: String, res: Response, pixels) {
-        console.log('preparePreview');
-        res.status(200).json(pixelsMat);
+    preparePreview(pixelsMat: any[], fileName: String, res: Response, pixels) {
+        res.status(OK).json(pixelsMat);
     };
 };

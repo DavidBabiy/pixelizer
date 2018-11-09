@@ -10,14 +10,12 @@ router.post('/preview', (req, res) => {
     if (!req['files']) return res.status(400).send('No files were uploaded.');
     console.log("Starting image processing");
     imageService.convertImage(req, res, req['files'].image, true)
-    res.sendStatus(200);
 });
 
 router.post('/convert', (req, res) => {
     if (!req['files']) return res.status(400).send('No files were uploaded.');
     console.log("Starting image processing");
     imageService.convertImage(req, res, req['files'].image, false)
-    res.sendStatus(200);
 });
 
 export const ImageController: Router = router;
