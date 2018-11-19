@@ -62,7 +62,7 @@ button {
 
 }
 
-span {
+#sp1 {
     color: red;
 }
 
@@ -87,11 +87,40 @@ span {
     height: 70px;
 }
 
+#choose-text {
+    color:black;
+    font-size: 1.3em;
+    background-color: silver;
+    border-radius: 3px;
+}
+
+#upload-ico {
+    width: 100px;
+    height: 100px;
+
+}
+
+#drag-text {
+    color: black;
+    font-size: 1.3em;
+}
+
 .file-uploader {
+    border: 2px dashed black;
+    border-radius: 20px;
+    width: 500px;
+    font-family: sans-serif;
+    height: 250px;
+
     display: flex;
+    flex-direction: column;
     margin-top: 24px;
     align-items: center;
     justify-content: center;
+}
+
+.file-uploader.highlight {
+    border-color: grey;
 }
 
 /*.file-uploader label {*/

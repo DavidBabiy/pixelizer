@@ -8,12 +8,12 @@ import * as colorConvert from "color-convert";
 import jimp = require("jimp");
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "http-status-codes";
 import { FILE } from "dns";
-
+import { logger } from '../util/Utils';
 
 export default class ImageService {
     private static instance: ImageService;
     private constructor() {
-        console.log('ImageService constructed');
+        logger.info('ImageService constructed');
     }
 
     static getInstance(){
@@ -26,7 +26,7 @@ export default class ImageService {
     convertImage(req, res, image, preview) {
         let imageMime = image.mimetype.split('/')[1];
         if (imageMime != 'jpeg' && imageMime != 'png') {
-            console.error('Not valid file format');
+            logger.error('Not valid file format');
             res.status(BAD_REQUEST).json({error: 'Not valid file format'});
         }
 
@@ -37,7 +37,7 @@ export default class ImageService {
                 img.scaleToFit(MAX_FILE_RESOLUTION, MAX_FILE_RESOLUTION)
                     .quality(100)
                     .write(FILES_UPLOAD_FOLDER + '/' + image.name, () => {
-                        console.log("File resized");
+                        logger.debug("File resized");
                         this.parsePixels(req, res, image, preview ? this.preparePreview : this.writeFile)
                     });
             }, err => {
@@ -68,7 +68,7 @@ export default class ImageService {
                     data = jpeg.decode(fs.readFileSync(FILES_UPLOAD_FOLDER + '/' + image.name), true).data;
                     break;
                 default:
-                    console.error("Unsupported mime type. Allowed types: jpg, png")
+                    logger.error("Unsupported mime type. Allowed types: jpg, png")
             }
             for (let i = 0; i < data.length; i += channels) {
                 if (columnCounter === width) {
@@ -122,7 +122,7 @@ export default class ImageService {
         writeStream.on("finish", () => {
             res.sendFile(FILES_UPLOAD_FOLDER + '/' + fileName,(err) => {
                 if (err) return res.status(INTERNAL_SERVER_ERROR).send(err);
-                console.log('Image sent to client');
+                logger.info('Image sent to client');
             });
         });
         writeStream.end();
