@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "main": "node main.js",
+    "build": "npm run clean && tsc",
+    "clean": "rimraf ./build",
+    "postinstall": "npm run build",
     "dev": "ts-node typescript/src/server.ts"
   },
   "engines": {
