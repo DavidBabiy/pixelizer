@@ -20,7 +20,7 @@ function showButton() {
 
 function hideDrag() {
     document.getElementById("drop-area").style.display = "none";
-    document.getElementById("demo-int").style.display = "none";
+    document.getElementById("demo-hint").style.display = "none";
 }
 
 
