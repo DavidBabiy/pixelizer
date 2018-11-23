@@ -24,7 +24,6 @@ export default class ImageService {
     }
 
     convertImage(req, res, image, preview) {
-        console.log(image)
         let imageMime = image.mimetype.split('/')[1];
         if (imageMime != 'jpeg' && imageMime != 'png') {
             logger.error('Not valid file format');
