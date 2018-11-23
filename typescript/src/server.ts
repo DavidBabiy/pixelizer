@@ -1,12 +1,14 @@
 import * as express from 'express';
 import * as path from 'path';
 import * as fileUpload from 'express-fileupload';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import { ImageController } from './controller';
 import { logger } from './util/Utils';
 import * as morgan from 'morgan';
 
 (async () => {
+    fs.emptyDirSync('./storage');
+
     const app: express.Application = express();
     const port = process.env.PORT || 3200;
 
