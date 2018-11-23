@@ -1,4 +1,4 @@
-const ansiColorsMap = {
+export const ansiColorsMap = {
     // 97: 'BRIGHT_WHITE',
     96: 'BRIGHT_CYAN',
     95: 'BRIGHT_MAGENTA',
@@ -22,5 +22,3 @@ const ansiColorsMap = {
     37: 'WHITE',
     97: 'BLACK'
 };
-
-module.exports = { ansiColorsMap: ansiColorsMap };

@@ -6,29 +6,30 @@
     <link rel="icon" href="pics/settings.ico">
     <title>Pixelizer</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<div class="header">
+<div class="header1">
     <img src="pics/settings.png"/>
-    <a href="index.html">Pixelizer</a>
+    <a class="url" href="index.html"><span id="title">Pixelizer</span></a>
 </div>
 <div class="main">
     <form class="main-form">
         <div class="description">This web application can convert any image into ANSI encoded text file:</div>
-        <div class="tip"><p>File Upload Single <span>*</span></p></div>
-        <div class="file-uploader">
-            <input id="file" name="file" class="input-file" type="file" onchange="handleFiles(this.files)"/>
-            <label class="btn btn-primary" for="file">
-                Choose a file
-                <i class="fas fa-file-upload"></i>
-            </label>
+        <div class="file-uploader" id="drop-area">
+             <p><input id="file" name="file" class="input-file" type="file" onchange="handleFiles(this.files)"/>
+                <label for="file">
+                    <span id="choose-text">Choose a file </span>
+                </label>
+                <span id="drag-text">or DRAG it here</span></p>
         </div>
-        <br>
+        <div class="demo-hint" id="demo-hint">You can only upload  <strong>JPG</strong>, <strong>PNG</strong> files.</div>
         <canvas id="canvas"></canvas>
         <div class="submit-form">
-            <button type="button" class="btn btn-primary"  onclick="downloadFile()">
+            <button type="button" class="btn btn-dark" id="b2" onclick="downloadFile()">
                 Download
                 <i class="fas fa-file-download"></i>
             </button>
@@ -42,8 +43,12 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 
 <script src="index.js"></script>
 

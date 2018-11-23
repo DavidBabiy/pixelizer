@@ -3,6 +3,18 @@
     padding: 0;
 }
 
+#title {
+    color:white;
+}
+
+#title:hover {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 button {
     outline: none;
 }
@@ -11,7 +23,8 @@ button {
     margin-bottom: 0;
 }
 
-.header {
+.header1 {
+    text-decoration: none;
     display: flex;
     background-color: black;
     color: white;
@@ -22,8 +35,7 @@ button {
     font-size: 3em;
 }
 
-a {
-    color: white;
+.header1 :hover{
     text-decoration: none;
 }
 
@@ -50,7 +62,7 @@ a {
 
 }
 
-span {
+#sp1 {
     color: red;
 }
 
@@ -75,11 +87,40 @@ span {
     height: 70px;
 }
 
+#choose-text {
+    color:black;
+    font-size: 1.3em;
+    background-color: silver;
+    border-radius: 3px;
+}
+
+#upload-ico {
+    width: 100px;
+    height: 100px;
+
+}
+
+#drag-text {
+    color: black;
+    font-size: 1.3em;
+}
+
 .file-uploader {
+    border: 2px dashed black;
+    border-radius: 20px;
+    width: 500px;
+    font-family: sans-serif;
+    height: 250px;
+
     display: flex;
+    flex-direction: column;
     margin-top: 24px;
     align-items: center;
     justify-content: center;
+}
+
+.file-uploader.highlight {
+    border-color: grey;
 }
 
 /*.file-uploader label {*/
@@ -107,9 +148,9 @@ span {
     /*border-radius: 3px;*/
 /*}*/
 
-/*.submit-form button * {*/
-    /*cursor: pointer;*/
-/*}*/
+.submit-form button {
+    display: none;
+}
 
 .input-file {
     display: none;
