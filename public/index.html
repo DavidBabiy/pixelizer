@@ -19,18 +19,14 @@
 <div class="main">
     <form class="main-form">
         <div class="description">This web application can convert any image into ANSI encoded text file:</div>
-        <div class="tip"><p>File Upload Single <span id="sp1">*</span></p></div>
         <div class="file-uploader" id="drop-area">
-
              <p><input id="file" name="file" class="input-file" type="file" onchange="handleFiles(this.files)"/>
                 <label for="file">
                     <span id="choose-text">Choose a file </span>
                 </label>
                 <span id="drag-text">or DRAG it here</span></p>
-
-
         </div>
-        <br>
+        <div class="demo-hint" id="demo-hint">You can only upload  <strong>JPG</strong>, <strong>PNG</strong> files.</div>
         <canvas id="canvas"></canvas>
         <div class="submit-form">
             <button type="button" class="btn btn-dark" id="b2" onclick="downloadFile()">
