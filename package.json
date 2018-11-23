@@ -30,7 +30,8 @@
     "log4js-config": "^0.1.1",
     "morgan": "^1.9.1",
     "ndarray": "^1.0.18",
-    "reflect-metadata": "^0.1.12"
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
