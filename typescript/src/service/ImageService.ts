@@ -31,7 +31,11 @@ export default class ImageService {
         }
 
         image.mv(FILES_UPLOAD_FOLDER + '/' + image.name, (err) => {
-            if (err) return res.status(INTERNAL_SERVER_ERROR).send(err);
+            if(err){
+                logger.error(err);
+                return res.status(INTERNAL_SERVER_ERROR).send(err);
+            }
+
             let promise = jimp.read(FILES_UPLOAD_FOLDER + '/' + image.name);
             promise.then(img => {
                 img.scaleToFit(MAX_FILE_RESOLUTION, MAX_FILE_RESOLUTION)
@@ -41,6 +45,7 @@ export default class ImageService {
                         this.parsePixels(req, res, image, preview ? this.preparePreview : this.writeFile)
                     });
             }, err => {
+                logger.error(err);
                 res.status(INTERNAL_SERVER_ERROR).send('Error while resizing image');
             });
         });
