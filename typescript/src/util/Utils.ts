@@ -6,7 +6,8 @@ log4js.configure({
         out: {
             type: 'stdout',
             layout: {
-                type: 'colored'
+                type: process.env.NODE_ENV === 'local' ? 'colored' : 'pattern',
+                pattern: '[%p] - %m',
             }
         }},
             categories: {

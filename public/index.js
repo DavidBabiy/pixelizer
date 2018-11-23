@@ -23,8 +23,6 @@ function hideDrag() {
     document.getElementById("demo-hint").style.display = "none";
 }
 
-
-
 function uploadFile() {
     let formData = new FormData();
     formData.append('image', file);
