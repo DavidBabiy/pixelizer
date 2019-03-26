@@ -23,6 +23,10 @@ export default class ImageService {
         return ImageService.instance;
     }
 
+    testFunc(){
+
+    }
+
     convertImage(req, res, image, preview) {
         let imageMime = image.mimetype.split('/')[1];
         if (imageMime != 'jpeg' && imageMime != 'png') {
