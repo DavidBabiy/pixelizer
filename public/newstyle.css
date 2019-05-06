@@ -66,17 +66,21 @@ body {
 .content-card{
     width: 200px;
     height: 250px;
-    border: 2px solid black;
+    border: 1px outset silver;
     border-radius: 5px;
 }
 
-
+.content-card:hover{
+    cursor: pointer;
+    border: 1px inset silver;
+    border-radius: 5px;
+}
 
 /* Header
 -----------------------------------------------------------------------------*/
 .header {
-    height: 100px;
-    background: grey;
+    height: 50px;
+    background: indianred;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -85,7 +89,7 @@ body {
 }
 
 .header img {
-    height: 100px;
+    height: 50px;
 }
 
 .sraka{
@@ -97,42 +101,48 @@ body {
     height: 25px;
 }
 
-.sraka1 {
-     display: flex;
-     flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 10px;
- }
-.sraka2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
 
 /* Middle
 -----------------------------------------------------------------------------*/
 .middle {
-    margin-top: 25px;
-    width: 100%;
-    padding: 0 0 100px;
-    position: relative;
-}
-.middle:after {
-    display: table;
-    clear: both;
-    content: '';
-}
-.container {
-    width: 100%;
-    float: left;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    margin: 25px 25px 25px 25px;
 }
 .content {
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 4em;
 }
 
+.content-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-card .image img {
+    width: 200px;
+}
+.content-card .card-info {
+    padding: 5px 12px 12px 12px;
+    height: 150px;
+}
+.content-card .card-info .card-title{
+    height: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+.content-card .card-info .card-main{
+    display: flex;
+    height: 85px;
+    justify-content: center;
+    align-items: center;
+}
 
 /* Right Sidebar
 -----------------------------------------------------------------------------*/
@@ -146,7 +156,7 @@ body {
     height: 50px;
     bottom: 0;
     position: fixed;
-    background-color: grey;
+    background-color: indianred;
     width: 100%;
     align-items: center;
     justify-content: center;
