@@ -112,6 +112,15 @@ body {
     align-content: center;
     margin: 25px 25px 25px 25px;
 }
+.widgets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.utube {
+    margin: 24px 0px 24px 0px;
+}
 .content {
     display: grid;
     grid-template-rows: 1fr 1fr;
@@ -143,7 +152,9 @@ body {
     justify-content: center;
     align-items: center;
 }
-
+.dre {
+    margin-left: 24px;
+}
 /* Right Sidebar
 -----------------------------------------------------------------------------*/
 
@@ -155,7 +166,7 @@ body {
     min-width: 1000px;
     height: 50px;
     bottom: 0;
-    position: fixed;
+    position: relative;
     background-color: indianred;
     width: 100%;
     align-items: center;
