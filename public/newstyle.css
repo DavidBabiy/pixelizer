@@ -101,7 +101,9 @@ body {
     height: 25px;
 }
 
-
+.but {
+    height: 40px;
+}
 /* Middle
 -----------------------------------------------------------------------------*/
 .middle {
@@ -155,6 +157,8 @@ body {
 .dre {
     margin-left: 24px;
 }
+
+
 /* Right Sidebar
 -----------------------------------------------------------------------------*/
 
@@ -172,4 +176,10 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
+}
+
+a {
+    margin-top: 30px;
+    text-decoration: none;
+    width: 100%;
 }
