@@ -11,8 +11,8 @@
     "dev:js": "node --require dotenv/config build/src/server.js"
   },
   "engines": {
-    "node": "10.10.0",
-    "npm": "6.4.1"
+    "node": "18.`13`.0",
+    "npm": "8.19.3"
   },
   "private": true,
   "dependencies": {
